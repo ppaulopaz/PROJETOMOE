@@ -1,56 +1,85 @@
-# CodeIgniter 4 Framework
+# MOEMVC
 
-## What is CodeIgniter?
+Disciplina de Engenharia de Software - UFG
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](http://codeigniter.com).
+Prof. Cássio Leonardo
 
-This repository holds the distributable version of the framework,
-including the user guide. It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+Estudantes: Paulo Paz e Cinara Gomes
 
-More information about the plans for version 4 can be found in [the announcement](http://forum.codeigniter.com/thread-62615.html) on the forums.
+Instruções:
 
-The user guide corresponding to this version of the framework can be found
-[here](https://codeigniter4.github.io/userguide/).
+1 - instalar WAMP SERVER
+    https://sourceforge.net/projects/wampserver/
+    
+2 - instalar codeigniter versão 4
+    https://github.com/codeigniter4/framework/archive/v4.1.1.zip
+    
+3 - Pastas MVC devem ser copiadas para o respectivo local no "www" conforme manual de instalação do codeigniter versão 4
+
+4 - Executar o seguinte script para criação do banco de dados
+
+    CREATE DATABASE MOE;
+    USE MOE;
+    CREATE TABLE ESTAGIARIO
+    (
+      id_estagiario INT AUTO_INCREMENT,
+      email VARCHAR(60),
+        senha VARCHAR(32),
+        nome_estagiario VARCHAR(60),
+        curso_estagiario VARCHAR(60),
+        ano_ingresso_estagiario DATE,
+        minicurriculo_estagiario VARCHAR(220),
+        status_esta varchar(1),
+        CONSTRAINT ESTAGIARIO_PKEY PRIMARY KEY (id_estagiario)
+    );
+
+    CREATE TABLE EMPREGADOR
+    (
+      id_empregador INT AUTO_INCREMENT,
+        email VARCHAR(60),
+        senha VARCHAR(220),
+        nome_empresa VARCHAR(60),
+        endereco_empresa VARCHAR(60),
+        pessoa_de_contato VARCHAR(60),
+        descricao_empresa VARCHAR(220),
+        produtos_empresa VARCHAR(220),
+        status_emp varchar(1),
+        CONSTRAINT EMPREGADOR PRIMARY KEY (ID_EMPREGADOR)
+    );
+
+    CREATE TABLE COORDENADOR
+    (
+      id_coordenador INT AUTO_INCREMENT,
+        email varchar(60),
+        senha varchar(60),
+        nome_coordenador varchar(60),
+        remuneracao decimal(10,2),
+        CONSTRAINT coodernador_pkey PRIMARY KEY (id_coordenador)
+    );
+    INSERT INTO COORDENADOR (email,senha,nome_coordenador,remuneracao) VALUES ('coordernador.moe@gmail.com','V$1234567','Coordenador',1200);
 
 
-## Important Change with index.php
+    CREATE TABLE CADASTRO_INTERESSE
+    (
+      id_cadastro_interesse int auto_increment,
+        id_estagio int,
+        id_empresa int,
+        constraint cadas_int_pkey primary key(id_cadastro_interesse),
+        constraint cadas_esta_fkey foreign key (id_estagio) references ESTAGIARIO(id_estagiario),
+        constraint cadas_emp_fkey foreign key (id_empresa) references EMPREGADOR(id_empregador)
+    );
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+    CREATE TABLE vagas (
+      id_vaga int auto_increment,
+        id_empregador int,
+      descricao varchar(255),
+      lista_atividades varchar(255),
+      semestre_requerido int,
+      lista_habilidades varchar(255),
+      quantidade_horas int,
+      remuneracao float,
+        constraint vaga_pkey primary key (id_vaga),
+        constraint vaga_fkey foreign key (id_empregador) references empregador(id_empregador)
+    );
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
-
-**Please** read the user guide for a better explanation of how CI4 works!
-
-## Repository Management
-
-We use Github issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
-
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
-
-## Contributing
-
-We welcome contributions from the community.
-
-Please read the [*Contributing to CodeIgniter*](https://github.com/codeigniter4/CodeIgniter4/blob/develop/contributing.md) section in the development repository.
-
-## Server Requirements
-
-PHP version 7.3 or higher is required, with the following extensions installed:
-
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php)
-- xml (enabled by default - don't turn it off)
+5 - Iniciar o WampServer e acessar o navegador usando: http://localhost/projetomoe/public/
